@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Boton from "@/components/boton";
 import axios from "axios";
@@ -12,15 +14,19 @@ async function getSessionUsuario() {
     console.log(sesionValida.data);
 }
 
-async function getUsuarios() {
+async function getUsuarios(searchTerm) {
     const url = "http://localhost:3000";
     const usuarios = await axios.get(url);
+    if (searchTerm) {
+        return usuarios.data.filter(usuario => usuario.nombre.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
     return usuarios.data;
 }
 
-export default async function Usuarios() {
+export default async function Usuarios({ searchParams }) {
     getSessionUsuario();
-    const usuarios = await getUsuarios();
+    const searchTerm = searchParams.search || "";
+    const usuarios = await getUsuarios(searchTerm);
 
     return (
         <div className="container">

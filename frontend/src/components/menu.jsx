@@ -1,6 +1,19 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 
 export default function Menu() {
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchType, setSearchType] = useState("usuarios");
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchTerm) {
+            // Redirigir a la página de búsqueda según el tipo seleccionado
+            window.location.href = `/${searchType}/mostrar?search=${searchTerm}`;
+        }
+    };
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -32,9 +45,25 @@ export default function Menu() {
                                 <Link className="nav-link active" aria-current="page" href="/ventas/nuevo">Crear Venta</Link>
                             </li>
                         </ul>
-                        <form className="d-flex" role="search">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success" type="submit">Search</button>
+                        <form className="d-flex" role="search" onSubmit={handleSearch}>
+                            <select 
+                                className="form-select me-2" 
+                                value={searchType} 
+                                onChange={(e) => setSearchType(e.target.value)}
+                            >
+                                <option value="usuarios">Usuarios</option>
+                                <option value="productos">Productos</option>
+                                <option value="ventas">Ventas</option>
+                            </select>
+                            <input
+                                className="form-control me-2"
+                                type="search"
+                                placeholder="Buscar"
+                                aria-label="Search"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <button className="btn btn-outline-success" type="submit">Buscar</button>
                         </form>
                     </div>
                 </div>

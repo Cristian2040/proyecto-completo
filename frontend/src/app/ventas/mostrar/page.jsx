@@ -1,13 +1,19 @@
+"use client"; // Asegúrate de que este archivo sea un Client Component
+
 import Link from "next/link";
-import Boton from "@/components/boton";
 import axios from "axios";
 import '../../estilos.css';
 import BorrarVenta from "@/components/borrarVenta";
 import EditarVentaLink from "@/components/editarVentaLink";
 
-async function getVentas() {
+async function getVentas(searchTerm) {
     const url = "http://localhost:3000/ventas";
     const ventas = await axios.get(url);
+    if (searchTerm) {
+        return ventas.data.filter(venta => 
+            venta.usuarioNombre.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }
     return ventas.data;
 }
 
@@ -22,8 +28,9 @@ function formatDate(timestamp) {
     return date.toLocaleString();
 }
 
-export default async function Ventas() {
-    const ventas = await getVentas();
+export default async function Ventas({ searchParams }) {
+    const searchTerm = searchParams.search || ""; // Obtener el término de búsqueda de los parámetros de búsqueda
+    const ventas = await getVentas(searchTerm); // Pasar el término de búsqueda a getVentas
     const productos = await getProductos();
 
     // Filtrar ventas que tengan el estatus "vendido"
@@ -71,4 +78,3 @@ export default async function Ventas() {
         </div>
     );
 }
-

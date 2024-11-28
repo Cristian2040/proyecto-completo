@@ -1,18 +1,25 @@
+"use client";
+
 import Link from "next/link";
-import Boton from "@/components/boton";
 import axios from "axios";
 import '../../estilos.css';
 import BorrarProducto from "@/components/borrarProducto";
 import EditarProducto from "@/components/editarProducto";
 
-async function getProductos() {
+async function getProductos(searchTerm) {
     const url = "http://localhost:3000/productos";
     const productos = await axios.get(url);
+    if (searchTerm) {
+        return productos.data.filter(producto => 
+            producto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }
     return productos.data;
 }
 
-export default async function Productos() {
-    const productos = await getProductos();
+export default async function Productos({ searchParams }) {
+    const searchTerm = searchParams.search || "";
+    const productos = await getProductos(searchTerm);
 
     return (
         <div className="container"> 
