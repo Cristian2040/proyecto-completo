@@ -86,8 +86,8 @@ module.exports = Producto;
 // Ejemplo de cómo crear una nueva instancia de Producto
 data = {
     id: "fjkd",
-    nombre: "Felipe Estrella",
-    cantidad: 15,
+    nombre: "X",
+    cantidad: 10,
     precio: "abc",
 }
 
