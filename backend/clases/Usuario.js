@@ -104,9 +104,9 @@ module.exports = Usuario;
 /* 
 // Ejemplo de cómo crear una nueva instancia de Usuario
 data = {
-    id: "fjkd",
-    nombre: "Felipe Estrella",
-    usuario: "felipe",
+    id: "fjkdbv",
+    nombre: "Cristian HB",
+    usuario: "criscross",
     password: "abc",
 }
 
